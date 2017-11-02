@@ -33,7 +33,7 @@ public class AppNetWork {
                     e.printStackTrace();
                 }
                 if(content!=null) {
-                    handler.onResult("", content);
+                    handler.onResult(null, content);
                 }else{
                     handler.onResult("解析失败",null);
                 }
@@ -54,8 +54,8 @@ public class AppNetWork {
         });
     }
   final static String originUrl = "http://192.168.100.142:3000";
-    public static void getUserData(final DataReceiveResponseHandler handler ){
-        appGet("/posts/1", new RequestHandler() {
+    public static void getUserData(String player1,final DataReceiveResponseHandler handler ){
+        appGet("/"+player1, new RequestHandler() {
             @Override
             public void onResult(String error, Object content) {
                     handler.onResult(error,content);

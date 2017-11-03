@@ -6,8 +6,9 @@ package com.a51gjj.jsonserverapp.stateMachine;
 
 public enum EventState{
     begin,
-    register_user,
-    first_event,
-    second_event,
-    third_event,
+    des_event,
+    choice_event,
+    day_finish_event,
+    random_event,
+    shequ_event
 }

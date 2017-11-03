@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="150dp">
+
+    <Button
+        android:id="@+id/shaxian_xiaochi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="沙县国际饭店" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="网吧"
+        android:layout_below="@+id/shaxian_xiaochi"
+        android:id="@+id/wangba"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="火锅店"
+        android:layout_below="@+id/wangba"
+        android:id="@+id/huoguodian"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="天上人间洗浴城"
+        android:layout_below="@+id/huoguodian"
+        android:id="@+id/tianshangrenjian"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="闪烁着红色灯光的按摩小店"
+        android:layout_below="@+id/tianshangrenjian"
+        android:id="@+id/anmoxiaodian"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="房产中介"
+        android:layout_below="@+id/anmoxiaodian"
+        android:id="@+id/fangchanzhongjie"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="逛好了，回家睡觉了"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>

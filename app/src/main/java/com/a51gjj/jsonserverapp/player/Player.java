@@ -13,6 +13,8 @@ public class Player {
     private int caichan = 0;
     private String job = "";
 
+    private int bsd = 6;//------------------------饱食度：当bsd处于1、(-10,-1)时      2、(0,6)  3、(12,++)    rp会变化
+    private int jszt = 50;//--------------------------------精神状态，过高或者过低都不好
     public String getJob() {
         return job;
     }
@@ -67,5 +69,27 @@ public class Player {
 
     public void setCurrentGjj(int currentGjj) {
         this.currentGjj = currentGjj;
+    }
+
+    public void loseMoney(int moeny){
+        caichan = caichan -moeny;
+    }
+    public void addBsd(int b){
+        this.bsd+=b;
+    }
+    public void loseRp(int r){
+        this.rp-=r;
+    }
+    public void loseBsd(int b){
+        this.bsd -= b;
+    }
+    public void addRp(int r){
+        this.rp +=r;
+    }
+    public void loseJszt(int j){
+        this.jszt -=j;
+    }
+    public void addJszt(int j){
+        this.jszt +=j;
     }
 }

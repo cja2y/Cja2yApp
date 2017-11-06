@@ -70,5 +70,37 @@
             android:layout_below="@id/caichan"
             android:textSize="16sp"
             android:layout_toRightOf="@+id/touxiang"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rp"
+            android:layout_toRightOf="@+id/name"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:text="rp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bsd"
+            android:layout_below="@id/rp"
+            android:layout_toRightOf="@id/name"
+            android:layout_marginLeft="50dp"
+            android:text="bsd"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/jszt"
+            android:layout_below="@id/bsd"
+            android:layout_toRightOf="@id/name"
+            android:layout_marginLeft="50dp"
+            android:text="jszt"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fdl"
+            android:layout_below="@id/jszt"
+            android:layout_toRightOf="@id/name"
+            android:layout_marginLeft="50dp"
+            android:text="fdl"/>
     </RelativeLayout>
 </RelativeLayout>

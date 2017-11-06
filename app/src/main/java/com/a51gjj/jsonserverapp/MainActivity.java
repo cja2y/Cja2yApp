@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements EventMachine.OnStateHandler{
+public class MainActivity extends AppCompatActivity implements EventMachine.OnStateHandler,TimeMachine.TimeHander{
 
 
 
@@ -64,15 +64,17 @@ public class MainActivity extends AppCompatActivity implements EventMachine.OnSt
         layoutInflater = getLayoutInflater();
         eventMachine = EventMachine.getMachine();
         eventMachine.setHandler(this);
-        timeMachine = TimeMachine.getInstance();
+        timeMachine = TimeMachine.getInstance(this);
     }
     private View user_first_view= null;
     private View user_event_view = null;
     private View user_second_event_view = null;
     private View user_choice_result_view = null;
     private View user_shequ_scene = null;
-    private TextView name,age,shouru,caichan,des,job,eventDes,secondDes,choice_result_des;
-    private Button firstBtn,secondBtn,goto_shequ,goto_sleep;
+    private View game_finish_view = null;
+    private View user_finished_view = null;
+    private TextView name,age,shouru,caichan,des,job,eventDes,secondDes,choice_result_des,rp,jszt,fdl,bsd,game_finish_des;
+    private Button firstBtn,secondBtn,goto_shequ,goto_sleep,shequ_goto_sleep;
     private LinearLayout choiceList;
 
 
@@ -82,13 +84,19 @@ public class MainActivity extends AppCompatActivity implements EventMachine.OnSt
         user_second_event_view = layoutInflater.inflate(R.layout.user_second_event_view,null);
         user_choice_result_view = layoutInflater.inflate(R.layout.user_choice_result_view,null);
         user_shequ_scene = layoutInflater.inflate(R.layout.shequ_scene,null);
+        game_finish_view = layoutInflater.inflate(R.layout.game_finish_view,null);
         name = findViewById(R.id.name);
         age = findViewById(R.id.age);
         shouru = findViewById(R.id.shouru);
         caichan = findViewById(R.id.caichan);
+        rp = findViewById(R.id.rp);
+        jszt = findViewById(R.id.jszt);
+        fdl = findViewById(R.id.fdl);
+        bsd = findViewById(R.id.bsd);
         des = user_first_view.findViewById(R.id.description);
         job = findViewById(R.id.job);
 
+        game_finish_des = game_finish_view.findViewById(R.id.game_finish_des);
         firstBtn = user_first_view.findViewById(R.id.ok);
         secondBtn = user_event_view.findViewById(R.id.second_ok);
         choiceList = user_second_event_view.findViewById(R.id.choice_list);
@@ -135,66 +143,103 @@ public class MainActivity extends AppCompatActivity implements EventMachine.OnSt
         tianshangrenjian = user_shequ_scene.findViewById(R.id.tianshangrenjian);
         anmodian = user_shequ_scene.findViewById(R.id.anmoxiaodian);
         fangchanzhongjie = user_shequ_scene.findViewById(R.id.fangchanzhongjie);
-
+        shequ_goto_sleep = user_shequ_scene.findViewById(R.id.shequ_goto_sleep);
         shaxianXiaochi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentPlayer.getCaichan()<10){
+                    Toast.makeText(MainActivity.this,"穷比滚",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Toast.makeText(MainActivity.this,"吃了一份鸭腿饭",Toast.LENGTH_SHORT).show();
-                currentPlayer.loseMoney(100);
-
+                currentPlayer.loseMoney(10);
+                currentPlayer.addBsd(1);
+                currentPlayer.addJszt(1);
+                currentPlayer.addFdl(1);
+                currentPlayer.loseRp(1);
                 initGenView();
             }
         });
         wangba.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentPlayer.getCaichan()<10){
+                    Toast.makeText(MainActivity.this,"穷比滚",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Toast.makeText(MainActivity.this,"超神啦超神啦",Toast.LENGTH_SHORT).show();
-                currentPlayer.loseMoney(100);
+                currentPlayer.loseMoney(10);
                 currentPlayer.loseBsd(1);
-                currentPlayer.loseRp(1);
-                currentPlayer.addJszt(1);
+                currentPlayer.loseRp(3);
+                currentPlayer.addJszt(2);
                 initGenView();
             }
         });
         huoguodian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentPlayer.getCaichan()<80){
+                    Toast.makeText(MainActivity.this,"穷比滚",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Toast.makeText(MainActivity.this,"怎么感觉菊花有点疼",Toast.LENGTH_SHORT).show();
-                currentPlayer.loseMoney(100);
-                currentPlayer.loseMoney(1000);
-                currentPlayer.addJszt(2);
+                currentPlayer.loseMoney(80);
+                currentPlayer.addJszt(3);
+                currentPlayer.addBsd(3);
+                currentPlayer.addRp(2);
                 initGenView();
             }
         });
         tianshangrenjian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentPlayer.getCaichan()<1000){
+                    Toast.makeText(MainActivity.this,"穷比滚",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Toast.makeText(MainActivity.this,"三分钟花了10000块",Toast.LENGTH_SHORT).show();
-                currentPlayer.loseMoney(100);
-                currentPlayer.loseJszt(3);
+                currentPlayer.loseMoney(1000);
+                currentPlayer.addJszt(5);
+                currentPlayer.loseBsd(1);
+                currentPlayer.addRp(6);
                 initGenView();
             }
         });
         anmodian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentPlayer.getCaichan()<100){
+                    Toast.makeText(MainActivity.this,"穷比滚",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Toast.makeText(MainActivity.this,"小丽又长胖了",Toast.LENGTH_SHORT).show();
                 currentPlayer.loseMoney(100);
-                currentPlayer.loseJszt(2);
+                currentPlayer.addJszt(2);
+                currentPlayer.loseBsd(1);
+                currentPlayer.loseRp(3);
                 initGenView();
             }
         });
         fangchanzhongjie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"被房产中介打了一顿给赶了出来:这里不是你们这些穷逼能来的地方",Toast.LENGTH_SHORT).show();
-                currentPlayer.loseMoney(100);
-                currentPlayer.loseJszt(10);
-                initGenView();
+                if(currentPlayer.getCaichan()<10000) {
+                    Toast.makeText(MainActivity.this, "被房产中介打了一顿给赶了出来:这里不是你们这些穷逼能来的地方", Toast.LENGTH_SHORT).show();
+                    currentPlayer.loseMoney(100);
+                    currentPlayer.loseJszt(10);
+                    currentPlayer.loseBsd(1);
+                    currentPlayer.loseRp(1);
+                    initGenView();
+                }
             }
         });
 
-
+        shequ_goto_sleep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eventMachine.onFinished(EventState.day_finish_event);
+            }
+        });
 
 
 
@@ -230,7 +275,8 @@ public class MainActivity extends AppCompatActivity implements EventMachine.OnSt
                         currentPlayer.setShouru(jo.getInt("shouru"));
                         currentPlayer.setCaichan(jo.getInt("caichan"));
                         currentPlayer.setJob(jo.getString("job"));
-
+                        currentPlayer.setRp(jo.getInt("rp"));
+                        currentPlayer.setBsd(jo.getInt("bsd"));
                         initGenView();
                        // initFirstDes(currentPlayer.getJob());
                         eventMachine.onFinished(EventState.begin);
@@ -288,6 +334,12 @@ public class MainActivity extends AppCompatActivity implements EventMachine.OnSt
             case shequ_event:
                 shequEvent();
                 break;
+            case day_finish_event:
+                if(timeMachine.timeGo()) {
+
+                    desEvent();
+                };
+                break;
 
         }
     }
@@ -298,13 +350,53 @@ public class MainActivity extends AppCompatActivity implements EventMachine.OnSt
         shouru.setText("月收入： "+currentPlayer.getShouru());
         caichan.setText("财产： "+currentPlayer.getCaichan());
         job.setText("职业： "+"美发师");
+        bsd.setText("bsd: " +currentPlayer.getBsd());
+        fdl.setText("fdl: "+currentPlayer.getFdl());
+        rp.setText("rp: "+currentPlayer.getRp());
+        jszt.setText("jszt: "+currentPlayer.getJszt());
+    }
+
+    private boolean initGenEvent(int time){
+        if(currentPlayer.getCaichan()>=3000){
+            gameFinishEvent("厉害厉害，只用了"+time+"天");
+            return false;
+
+        }
+        if(currentPlayer.getBsd()<-3){
+            gameFinishEvent("好饿啊好饿啊，饿死啦");
+            return false;
+
+
+        }
+        if(currentPlayer.getBsd()<-3){
+            gameFinishEvent("好撑啊好撑啊，撑死了");
+            return false;
+
+
+        }
+        if(currentPlayer.getJszt()<-10){
+            //Toast.makeText(this,"生活好空虚呀，自杀啦",Toast.LENGTH_LONG);
+            gameFinishEvent("生活好空虚呀，自杀啦");
+            return false;
+
+
+        }
+        if(time>30&&currentPlayer.getCaichan()<800000){
+            gameFinishEvent("首付还没凑齐，你这个loser！！");
+            return false;
+
+
+        }
+        return true;
+
     }
     //---------------------------------------文字事件场景
     private void desEvent(){
         game_view.removeAllViews();
         game_view.addView(user_event_view);
+        String tag = "job_random_event" + (currentPlayer.getRp()>80?"_good":"_normal");
         //eventDes.setText("hello");
-        AppNetWork.getUserData("job_random_event",new DataReceiveResponseHandler(){
+        AppNetWork.getUserData(tag,new DataReceiveResponseHandler(){
             @Override
             public void onResult(String error, Object content) {
                 super.onResult(error, content);
@@ -369,7 +461,8 @@ public class MainActivity extends AppCompatActivity implements EventMachine.OnSt
 
 
     private void choiceEventResult(String id,String job){
-        AppNetWork.getUserData(job+"_choice_result_good"+"/"+id,new DataReceiveResponseHandler(){
+        String tag = "_choice_result" + (currentPlayer.getRp()>80?"_good":"_normal");
+        AppNetWork.getUserData(job+tag+"/"+id,new DataReceiveResponseHandler(){
             @Override
             public void onResult(String error, Object content) {
                 super.onResult(error, content);
@@ -403,8 +496,21 @@ public class MainActivity extends AppCompatActivity implements EventMachine.OnSt
 
 
     }
+
+    private void gameFinishEvent(String tip){
+        setCurrentGameView(game_finish_view);
+        game_finish_des.setText(tip);
+    }
     class ChoiceInfo{
         String title = "";
         String id = "";
+    }
+
+    @Override
+    public boolean onTimeGo(int time) {
+        currentPlayer.loseBsd(1);
+        return initGenEvent(time);
+
+
     }
 }

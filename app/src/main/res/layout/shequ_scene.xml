@@ -44,5 +44,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="逛好了，回家睡觉了"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:id="@+id/shequ_goto_sleep"/>
 </RelativeLayout>

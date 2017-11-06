@@ -6,9 +6,11 @@ package com.a51gjj.jsonserverapp.stateMachine;
 
 public class TimeMachine  {
     private static TimeMachine machine = null;
-    public static TimeMachine getInstance(){
+    public TimeHander timeHander = null;
+    public static TimeMachine getInstance(TimeHander hander){
         if(machine==null){
             machine= new TimeMachine();
+            machine.timeHander = hander;
         }
 
         return machine;
@@ -21,7 +23,12 @@ public class TimeMachine  {
         return time;
     }
 
-    public void timeGo(){
-        time++;
+    public boolean timeGo(){
+//        time++;
+       return timeHander.onTimeGo(++time);
+    }
+
+   public interface TimeHander{
+        boolean onTimeGo(int time);
     }
 }

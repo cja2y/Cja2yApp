@@ -10,7 +10,12 @@
         android:layout_centerInParent="true"
         android:text=""/>
 
-
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="demo游戏目标：财产达到3000"
+    android:layout_centerHorizontal="true"
+    android:textColor="#ff0000"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

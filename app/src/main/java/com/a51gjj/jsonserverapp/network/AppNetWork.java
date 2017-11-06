@@ -53,7 +53,7 @@ public class AppNetWork {
             }
         });
     }
-  final static String originUrl = "http://192.168.100.142:3000";
+  final static String originUrl = "http://67.209.191.20:3000";//192.168.31.130//92.168.100.142//http://67.209.191.20/
     public static void getUserData(String player1,final DataReceiveResponseHandler handler ){
         appGet("/"+player1, new RequestHandler() {
             @Override
